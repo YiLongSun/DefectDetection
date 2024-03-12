@@ -1,6 +1,9 @@
 Datasets/
 Experiments/
 
+.tmp/
+results/
+
 .vscode/
 
 # Byte-compiled / optimized / DLL files
