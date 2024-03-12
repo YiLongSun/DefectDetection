@@ -10,23 +10,23 @@ from anomalib.models import (Cfa, Cflow, Csflow, Dfkde, Dfm, Draem, Dsr,
 from lightning.pytorch.callbacks import ModelCheckpoint
 
 MODELS = {
-    "CFA": Cfa,
-    "CFlow": Cflow,
-    "CSFlow": Csflow,
-    "DFKDE": Dfkde,
-    "DFM": Dfm,
-    "DRAEM": Draem,
-    "DSR": Dsr,
-    "EFFICIENTAD": EfficientAd,
-    "FASTFLOW": Fastflow,
-    "GANOMALY": Ganomaly,
-    "PADIM": Padim,
-    "PATCHCORE": Patchcore,
-    "REVERSEDISTILLATION": ReverseDistillation,
-    "RKDE": Rkde,
-    "STFPM": Stfpm,
-    "UFLOW": Uflow,
-    "WINCLIP": WinClip,
+    "Cfa": Cfa,
+    "Cflow": Cflow,
+    "Csflow": Csflow,
+    "Dfkde": Dfkde,
+    "Dfm": Dfm,
+    "Draem": Draem,
+    "Dsr": Dsr,
+    "EfficientAd": EfficientAd,
+    "Fastflow": Fastflow,
+    "Ganomaly": Ganomaly,
+    "Padim": Padim,
+    "Patchcore": Patchcore,
+    "ReverseDistillation": ReverseDistillation,
+    "Rkde": Rkde,
+    "Stfpm": Stfpm,
+    "Uflow": Uflow,
+    "WinClip": WinClip,
 }
 
 
@@ -84,11 +84,11 @@ def create_engine(args):
                     callbacks=[
                         ModelCheckpoint(
                             mode="max",
-                            monitor="pixel_F1Score"
+                            monitor="pixel_AUROC"
                         )
                     ],
-                    default_root_dir=args_experiment_path
-                    )
+                    pixel_metrics=["AUROC"],
+                    default_root_dir=args_experiment_path,)
 
     return engine
 
@@ -97,7 +97,7 @@ def main():
 
     # Parse arguments
     parser = argparse.ArgumentParser(description="Anomalib on DeltaData")
-    parser.add_argument("--model", type=str, default="FASTFLOW")
+    parser.add_argument("--model", type=str, default="Stfpm")
     parser.add_argument("--experiment_path", type=str,
                         default="../../Experiments/Anomalib/")
     parser.add_argument("--data_root_path", type=str,
@@ -124,6 +124,7 @@ def main():
     # Train model
     try:
         engine.train(datamodule=data, model=model)
+        engine.export(model=model, export_type="torch")
 
     except Exception as e:
         print(e)
