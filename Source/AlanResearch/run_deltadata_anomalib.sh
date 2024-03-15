@@ -1,40 +1,7 @@
 source activate anomalib
 
-# MODELS = {
-#     "Cfa": Cfa,
-#     "Cflow": Cflow,
-#     "Csflow": Csflow,
-#     "Dfkde": Dfkde,
-#     "Dfm": Dfm,
-#     "Draem": Draem,
-#     "Dsr": Dsr,
-#     "EfficientAd": EfficientAd,
-#     "Fastflow": Fastflow,
-#     "Ganomaly": Ganomaly,
-#     "Padim": Padim,
-#     "Patchcore": Patchcore,
-#     "ReverseDistillation": ReverseDistillation,
-#     "Rkde": Rkde,
-#     "Stfpm": Stfpm,
-#     "Uflow": Uflow,
-#     "WinClip": WinClip,
-# }
 
-# python train_deltadata_anomalib.py \
-#     --model "STFPM" \
-#     --experiment_path "../../Experiments/Anomalib/" \
-#     --data_root_path "../../Datasets/DeltaDataV1_AnomalibForm/P1_V1/" \
-#     --data_normal_dir "trn/OK/X/" \
-#     --data_abnormal_dir "val/NG/X/" \
-#     --data_mask_dir "val/NG/Y/" \
-#     --data_normal_test_dir "val/OK/X/"
-
-# python test_deltadata_anomalib.py \
-#     --weights "../../Experiments/Anomalib/Stfpm/P1_V1/latest/weights/torch/model.pt" \
-#     --input "../../Datasets/DeltaDataV1_AnomalibForm/P1_V1/tst/" \
-#     --output "../../Experiments/Anomalib/Stfpm/P1_V1/Test/"
-
-models=(Cfa Cflow Csflow Dfkde Dfm Draem Dsr EfficientAd Fastflow Ganomaly Padim Patchcore ReverseDistillation Rkde Stfpm Uflow WinClip)
+models=(Stfpm Cfa Cflow Csflow Dfkde Dfm Draem Dsr EfficientAd Fastflow Ganomaly Padim Patchcore ReverseDistillation Rkde Uflow WinClip)
 products=(1 3)
 views=(1 2 3 4)
 target_experiment_path="../../Experiments/Anomalib/"
