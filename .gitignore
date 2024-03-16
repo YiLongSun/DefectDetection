@@ -1,6 +1,9 @@
 Datasets/
 Experiments/
 
+datasets/
+pre_trained/
+
 .tmp/
 results/
 
