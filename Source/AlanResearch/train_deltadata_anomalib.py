@@ -2,6 +2,7 @@ import argparse
 from collections.abc import Iterable
 from pathlib import Path
 
+import torch
 from anomalib import TaskType
 from anomalib.callbacks.metrics import _MetricsCallback
 from anomalib.callbacks.normalization import get_normalization_callback
@@ -24,6 +25,8 @@ from anomalib.utils.visualization import ImageVisualizer
 from lightning.pytorch.callbacks import Callback, ModelCheckpoint
 from lightning.pytorch.loggers import Logger
 from lightning.pytorch.trainer import Trainer
+
+torch.set_float32_matmul_precision("high")
 
 MODELS = {
     "Cfa": Cfa,
@@ -107,7 +110,9 @@ def create_engine(args):
                                         "Accuracy", "Specificity"],
                          pixel_metrics=["Recall", "Precision",
                                         "Accuracy", "Specificity"],
-                         default_root_dir=args_experiment_path,)
+                         default_root_dir=args_experiment_path,
+                         accelerator="gpu",
+                         devices=1,)
 
     return engine
 
