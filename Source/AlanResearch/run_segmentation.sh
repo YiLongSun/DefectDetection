@@ -1,7 +1,7 @@
 source activate anomalib
 
 
-models=(Stfpm Cfa Cflow Csflow Dfkde Dfm Draem Dsr EfficientAd Fastflow Ganomaly Padim Patchcore ReverseDistillation Rkde Uflow WinClip)
+models=(Cfa Cflow Csflow Dsr Draem EfficientAd Fastflow Padim Patchcore ReverseDistillation Stfpm Uflow)
 products=(1 3)
 views=(1 2 3 4)
 target_experiment_path="../../Experiments/Anomalib/"
@@ -17,7 +17,7 @@ for model in "${models[@]}"; do
 
         for view in "${views[@]}"; do
 
-            python train_deltadata_anomalib.py \
+            python train_segmentaiton.py \
                 --model "${model}" \
                 --experiment_path "${target_experiment_path}" \
                 --data_root_path "${target_data_root_path}P${product}_V${view}/" \
@@ -26,7 +26,7 @@ for model in "${models[@]}"; do
                 --data_mask_dir "${target_data_mask_dir}" \
                 --data_normal_test_dir "${target_data_normal_test_dir}"
 
-            python test_deltadata_anomalib.py \
+            python test_segmentaiton.py \
                 --weights "../../Experiments/Anomalib/${model}/P${product}_V${view}/latest/weights/torch/model.pt" \
                 --input "../../Datasets/DeltaDataV1_AnomalibForm/P${product}_V${view}/tst/" \
                 --output "../../Experiments/Anomalib/${model}/P${product}_V${view}/Test/"

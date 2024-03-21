@@ -133,7 +133,9 @@ def main():
 
             args.input = input_folder/NG_OK/"X"/img
             args.output = ouput_folder/img
+
             predictions = infer(args=args)
+
             gt = np.array(Image.open(input_folder/NG_OK/"Y"/img))
 
             if 255 in gt:
@@ -151,20 +153,25 @@ def main():
             iou = IoU(predictions.pred_mask, gt)
             segmentation_iou.append(iou[1])
 
-            fig = plt.figure(figsize=(15, 5))
+            fig = plt.figure(figsize=(20, 5))
             fig.suptitle("{}".format(img))
-            ax1 = fig.add_subplot(1, 3, 1)
+            ax1 = fig.add_subplot(1, 4, 1)
             ax1.imshow(predictions.image)
             ax1.set_title("Image")
             ax1.axis("off")
-            ax2 = fig.add_subplot(1, 3, 2)
+            ax2 = fig.add_subplot(1, 4, 2)
             ax2.imshow(gt, cmap='gray', vmin=0, vmax=255)
             ax2.set_title("Ground Truth")
             ax2.axis("off")
-            ax3 = fig.add_subplot(1, 3, 3)
-            ax3.imshow(predictions.pred_mask, cmap='gray', vmin=0, vmax=255)
-            ax3.set_title("Prediction")
+            ax3 = fig.add_subplot(1, 4, 3)
+            ax3.imshow(predictions.anomaly_map)
+            ax3.set_title("Anomaly Map")
             ax3.axis("off")
+            ax4 = fig.add_subplot(1, 4, 4)
+            ax4.imshow(predictions.pred_mask, cmap='gray', vmin=0, vmax=255)
+            ax4.set_title("Prediction")
+            ax4.axis("off")
+
             output_path = ouput_folder / "{}".format(img)
 
             plt.savefig(output_path)
@@ -190,9 +197,9 @@ def main():
             "FP": int(p_fp),
             "FN": int(p_fn),
             "TP": int(p_tp)
-        }
-
+        },
     }
+
     json.dump(results, open(ouput_folder / "results.json", "w"))
 
 
