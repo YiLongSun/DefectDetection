@@ -97,12 +97,11 @@ def create_engine(args):
     engine_task = "classification"
     engine_callbacks = [
         ModelCheckpoint(
-            mode="max",
-            monitor="image_AUROC",
+            save_top_k=-1,
             filename="best",
         )
     ]
-    engine_image_metrics = ["AUROC"]
+    engine_image_metrics = ["AUROC", "Accuracy", "Recall", "Specificity"]
     engine_accelerator = "gpu"
     engine_devices = 1
     engine_logger = AnomalibTensorBoardLogger(Path(args.experiment_path) / args.model / args.data_root_path.split("/")[-2], name="logs")

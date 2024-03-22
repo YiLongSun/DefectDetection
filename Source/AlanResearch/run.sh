@@ -1,0 +1,2 @@
+bash run_segmentation.sh
+bash run_classification.sh

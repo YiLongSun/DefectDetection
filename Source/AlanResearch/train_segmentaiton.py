@@ -184,11 +184,12 @@ def create_engine(args):
     engine_callbacks = [
         ModelCheckpoint(
             mode="max",
-            monitor="pixel_Accuracy",
+            monitor="pixel_AUROC",
             filename="best",
         ),
     ]
-    engine_pixel_metrics = ["Accuracy"]
+    engine_image_metrics = ["AUROC", "Accuracy", "Recall", "Specificity"]
+    engine_pixel_metrics = ["AUROC", "Accuracy", "Recall", "Specificity"]
     engine_accelerator = "gpu"
     engine_devices = 1
     engine_max_epochs = 1000
@@ -197,6 +198,7 @@ def create_engine(args):
     if args_model == "Cfa":
         engine = Engine_ModifiedV1(task=engine_task,
                                    callbacks=engine_callbacks,
+                                   image_metrics=engine_image_metrics,
                                    pixel_metrics=engine_pixel_metrics,
                                    default_root_dir=args_experiment_path,
                                    accelerator=engine_accelerator,
@@ -207,6 +209,7 @@ def create_engine(args):
     elif args_model == "Cflow":
         engine = Engine_ModifiedV1(task=engine_task,
                                    callbacks=engine_callbacks,
+                                   image_metrics=engine_image_metrics,
                                    pixel_metrics=engine_pixel_metrics,
                                    default_root_dir=args_experiment_path,
                                    accelerator=engine_accelerator,
@@ -217,6 +220,7 @@ def create_engine(args):
     elif args_model == "Csflow":
         engine = Engine_ModifiedV1(task=engine_task,
                                    callbacks=engine_callbacks,
+                                   image_metrics=engine_image_metrics,
                                    pixel_metrics=engine_pixel_metrics,
                                    default_root_dir=args_experiment_path,
                                    accelerator=engine_accelerator,
@@ -227,6 +231,7 @@ def create_engine(args):
     elif args_model == "Dsr":
         engine = Engine_ModifiedV1(task=engine_task,
                                    callbacks=engine_callbacks,
+                                   image_metrics=engine_image_metrics,
                                    pixel_metrics=engine_pixel_metrics,
                                    default_root_dir=args_experiment_path,
                                    accelerator=engine_accelerator,
@@ -237,6 +242,7 @@ def create_engine(args):
     elif args_model == "Draem":
         engine = Engine_ModifiedV1(task=engine_task,
                                    callbacks=engine_callbacks,
+                                   image_metrics=engine_image_metrics,
                                    pixel_metrics=engine_pixel_metrics,
                                    default_root_dir=args_experiment_path,
                                    accelerator=engine_accelerator,
@@ -247,6 +253,7 @@ def create_engine(args):
     elif args_model == "EfficientAd":
         engine = Engine_ModifiedV1(task=engine_task,
                                    callbacks=engine_callbacks,
+                                   image_metrics=engine_image_metrics,
                                    pixel_metrics=engine_pixel_metrics,
                                    default_root_dir=args_experiment_path,
                                    accelerator=engine_accelerator,
@@ -258,6 +265,7 @@ def create_engine(args):
     elif args_model == "Fastflow":
         engine = Engine_ModifiedV1(task=engine_task,
                                    callbacks=engine_callbacks,
+                                   image_metrics=engine_image_metrics,
                                    pixel_metrics=engine_pixel_metrics,
                                    default_root_dir=args_experiment_path,
                                    accelerator=engine_accelerator,
@@ -268,6 +276,7 @@ def create_engine(args):
     elif args_model == "Padim":
         engine = Engine_ModifiedV1(task=engine_task,
                                    callbacks=engine_callbacks,
+                                   image_metrics=engine_image_metrics,
                                    pixel_metrics=engine_pixel_metrics,
                                    default_root_dir=args_experiment_path,
                                    accelerator=engine_accelerator,
@@ -278,6 +287,7 @@ def create_engine(args):
     elif args_model == "Patchcore":
         engine = Engine_ModifiedV1(task=engine_task,
                                    callbacks=engine_callbacks,
+                                   image_metrics=engine_image_metrics,
                                    pixel_metrics=engine_pixel_metrics,
                                    default_root_dir=args_experiment_path,
                                    accelerator=engine_accelerator,
@@ -288,6 +298,7 @@ def create_engine(args):
     elif args_model == "ReverseDistillation":
         engine = Engine_ModifiedV1(task=engine_task,
                                    callbacks=engine_callbacks,
+                                   image_metrics=engine_image_metrics,
                                    pixel_metrics=engine_pixel_metrics,
                                    default_root_dir=args_experiment_path,
                                    accelerator=engine_accelerator,
@@ -299,6 +310,7 @@ def create_engine(args):
     elif args_model == "Stfpm":
         engine = Engine_ModifiedV1(task=engine_task,
                                    callbacks=engine_callbacks,
+                                   image_metrics=engine_image_metrics,
                                    pixel_metrics=engine_pixel_metrics,
                                    default_root_dir=args_experiment_path,
                                    accelerator=engine_accelerator,
@@ -309,6 +321,7 @@ def create_engine(args):
     elif args_model == "Uflow":
         engine = Engine_ModifiedV1(task=engine_task,
                                    callbacks=engine_callbacks,
+                                   image_metrics=engine_image_metrics,
                                    pixel_metrics=engine_pixel_metrics,
                                    default_root_dir=args_experiment_path,
                                    accelerator=engine_accelerator,
