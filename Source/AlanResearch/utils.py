@@ -9,8 +9,6 @@ from anomalib.callbacks.thresholding import _ThresholdCallback
 from anomalib.callbacks.timer import TimerCallback
 from anomalib.callbacks.visualizer import _VisualizationCallback
 from anomalib.engine import Engine
-from anomalib.engine.engine import _TrainerArgumentsCache
-from anomalib.metrics.threshold import BaseThreshold
 from anomalib.models import AnomalyModule
 from anomalib.utils.normalization import NormalizationMethod
 from anomalib.utils.types import NORMALIZATION, THRESHOLD
@@ -22,12 +20,7 @@ from lightning.pytorch.trainer import Trainer
 
 class _ThresholdCallback_ModifiedV1(_ThresholdCallback):
     def __init__(self, threshold: THRESHOLD = "F1AdaptiveThreshold") -> None:
-
-        super().__init__()
-
-        self._initialize_thresholds(threshold)
-        self.image_threshold: BaseThreshold
-        self.pixel_threshold: BaseThreshold
+        super().__init__(threshold)
 
     def _compute(self, pl_module: AnomalyModule) -> None:
 
@@ -48,33 +41,7 @@ class Engine_ModifiedV1(Engine):
         **kwargs,
     ) -> None:
 
-        super().__init__()
-
-        if callbacks is None:
-            callbacks = []
-
-        # Cache the Lightning Trainer arguments.
-        logger = False if logger is None else logger
-        self._cache = _TrainerArgumentsCache(
-            callbacks=[*callbacks],
-            logger=logger,
-            default_root_dir=Path(default_root_dir),
-            **kwargs,
-        )
-
-        self.normalization = normalization
-        self.threshold = threshold
-        self.task = TaskType(task)
-        self.image_metric_names = image_metrics if image_metrics else [
-            "AUROC", "F1Score"]
-
-        # pixel metrics are only used for segmentation tasks.
-        self.pixel_metric_names = None
-        if self.task == TaskType.SEGMENTATION:
-            self.pixel_metric_names = pixel_metrics if pixel_metrics is not None else [
-                "AUROC", "F1Score"]
-
-        self._trainer: Trainer | None = None
+        super().__init__(callbacks, normalization, threshold, task, image_metrics, pixel_metrics, logger, default_root_dir, **kwargs)
 
     def _setup_anomalib_callbacks(self) -> None:
         """Set up callbacks for the trainer."""

@@ -1,11 +1,14 @@
 import argparse
+import os
+from pathlib import Path
 
 import torch
 from anomalib import TaskType
 from anomalib.data import Folder
-from anomalib.models import (Cfa, Cflow, Csflow, Dfkde, Draem, Dsr,
-                             EfficientAd, Fastflow, Padim, Patchcore,
-                             ReverseDistillation, Stfpm, Uflow)
+from anomalib.loggers import AnomalibTensorBoardLogger
+from anomalib.models import (Cfa, Cflow, Csflow, Draem, Dsr, EfficientAd,
+                             Fastflow, Padim, Patchcore, ReverseDistillation,
+                             Stfpm, Uflow)
 from lightning.pytorch.callbacks import ModelCheckpoint
 from utils import Engine_ModifiedV1
 
@@ -182,12 +185,14 @@ def create_engine(args):
         ModelCheckpoint(
             mode="max",
             monitor="pixel_Accuracy",
-        )
+            filename="best",
+        ),
     ]
     engine_pixel_metrics = ["Accuracy"]
     engine_accelerator = "gpu"
     engine_devices = 1
-    engine_max_epochs = 1000
+    engine_max_epochs = 2
+    engine_logger = AnomalibTensorBoardLogger(Path(args.experiment_path) / args.model / args.data_root_path.split("/")[-2], name="logs")
 
     if args_model == "Cfa":
         engine = Engine_ModifiedV1(task=engine_task,
@@ -196,7 +201,8 @@ def create_engine(args):
                                    default_root_dir=args_experiment_path,
                                    accelerator=engine_accelerator,
                                    devices=engine_devices,
-                                   max_epochs=engine_max_epochs)
+                                   max_epochs=engine_max_epochs,
+                                   logger=engine_logger)
 
     elif args_model == "Cflow":
         engine = Engine_ModifiedV1(task=engine_task,
@@ -205,7 +211,8 @@ def create_engine(args):
                                    default_root_dir=args_experiment_path,
                                    accelerator=engine_accelerator,
                                    devices=engine_devices,
-                                   max_epochs=engine_max_epochs)
+                                   max_epochs=engine_max_epochs,
+                                   logger=engine_logger)
 
     elif args_model == "Csflow":
         engine = Engine_ModifiedV1(task=engine_task,
@@ -214,7 +221,8 @@ def create_engine(args):
                                    default_root_dir=args_experiment_path,
                                    accelerator=engine_accelerator,
                                    devices=engine_devices,
-                                   max_epochs=engine_max_epochs)
+                                   max_epochs=engine_max_epochs,
+                                   logger=engine_logger)
 
     elif args_model == "Dsr":
         engine = Engine_ModifiedV1(task=engine_task,
@@ -223,7 +231,8 @@ def create_engine(args):
                                    default_root_dir=args_experiment_path,
                                    accelerator=engine_accelerator,
                                    devices=engine_devices,
-                                   max_epochs=engine_max_epochs)
+                                   max_epochs=engine_max_epochs,
+                                   logger=engine_logger)
 
     elif args_model == "Draem":
         engine = Engine_ModifiedV1(task=engine_task,
@@ -232,7 +241,8 @@ def create_engine(args):
                                    default_root_dir=args_experiment_path,
                                    accelerator=engine_accelerator,
                                    devices=engine_devices,
-                                   max_epochs=engine_max_epochs)
+                                   max_epochs=engine_max_epochs,
+                                   logger=engine_logger)
 
     elif args_model == "EfficientAd":
         engine = Engine_ModifiedV1(task=engine_task,
@@ -242,7 +252,8 @@ def create_engine(args):
                                    accelerator=engine_accelerator,
                                    devices=engine_devices,
                                    max_epochs=engine_max_epochs,
-                                   max_steps=350000)
+                                   max_steps=350000,
+                                   logger=engine_logger)
 
     elif args_model == "Fastflow":
         engine = Engine_ModifiedV1(task=engine_task,
@@ -251,7 +262,8 @@ def create_engine(args):
                                    default_root_dir=args_experiment_path,
                                    accelerator=engine_accelerator,
                                    devices=engine_devices,
-                                   max_epochs=engine_max_epochs)
+                                   max_epochs=engine_max_epochs,
+                                   logger=engine_logger)
 
     elif args_model == "Padim":
         engine = Engine_ModifiedV1(task=engine_task,
@@ -260,7 +272,8 @@ def create_engine(args):
                                    default_root_dir=args_experiment_path,
                                    accelerator=engine_accelerator,
                                    devices=engine_devices,
-                                   max_epochs=engine_max_epochs)
+                                   max_epochs=engine_max_epochs,
+                                   logger=engine_logger)
 
     elif args_model == "Patchcore":
         engine = Engine_ModifiedV1(task=engine_task,
@@ -269,7 +282,8 @@ def create_engine(args):
                                    default_root_dir=args_experiment_path,
                                    accelerator=engine_accelerator,
                                    devices=engine_devices,
-                                   max_epochs=engine_max_epochs)
+                                   max_epochs=engine_max_epochs,
+                                   logger=engine_logger)
 
     elif args_model == "ReverseDistillation":
         engine = Engine_ModifiedV1(task=engine_task,
@@ -279,7 +293,8 @@ def create_engine(args):
                                    accelerator=engine_accelerator,
                                    devices=engine_devices,
                                    max_epochs=engine_max_epochs,
-                                   check_val_every_n_epoch=engine_max_epochs)
+                                   check_val_every_n_epoch=engine_max_epochs,
+                                   logger=engine_logger)
 
     elif args_model == "Stfpm":
         engine = Engine_ModifiedV1(task=engine_task,
@@ -288,7 +303,8 @@ def create_engine(args):
                                    default_root_dir=args_experiment_path,
                                    accelerator=engine_accelerator,
                                    devices=engine_devices,
-                                   max_epochs=engine_max_epochs)
+                                   max_epochs=engine_max_epochs,
+                                   logger=engine_logger)
 
     elif args_model == "Uflow":
         engine = Engine_ModifiedV1(task=engine_task,
@@ -297,11 +313,19 @@ def create_engine(args):
                                    default_root_dir=args_experiment_path,
                                    accelerator=engine_accelerator,
                                    devices=engine_devices,
-                                   max_epochs=engine_max_epochs)
+                                   max_epochs=engine_max_epochs,
+                                   logger=engine_logger)
 
 
     return engine
 
+
+def load_model(args):
+
+    lightning_checkpoint_path = Path(args.experiment_path) / args.model / args.data_root_path.split("/")[-2] / "logs/version_0/checkpoints/best.ckpt"
+    model=MODELS[args.model].load_from_checkpoint(os.path.abspath(lightning_checkpoint_path))
+
+    return model
 
 
 def main():
@@ -330,13 +354,11 @@ def main():
     engine = create_engine(args)
 
     # Train model
-    try:
-        engine.train(datamodule=data, model=model)
-        engine.export(model=model, export_type="torch")
+    engine.train(datamodule=data, model=model)
 
-    except Exception as e:
-        print(e)
-
+    # Export model
+    model = load_model(args)
+    engine.export(model=model, export_type="torch")
 
 if __name__ == "__main__":
     main()
