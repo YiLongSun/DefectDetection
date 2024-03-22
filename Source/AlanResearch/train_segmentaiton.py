@@ -191,7 +191,7 @@ def create_engine(args):
     engine_pixel_metrics = ["Accuracy"]
     engine_accelerator = "gpu"
     engine_devices = 1
-    engine_max_epochs = 2
+    engine_max_epochs = 1000
     engine_logger = AnomalibTensorBoardLogger(Path(args.experiment_path) / args.model / args.data_root_path.split("/")[-2], name="logs")
 
     if args_model == "Cfa":
