@@ -26,9 +26,9 @@ for model in "${models[@]}"; do
                 --data_normal_test_dir "${target_data_normal_test_dir}"
 
             python test_classification.py \
-                --weights "../../Experiments/Anomalib/${model}/P${product}_V${view}/latest/weights/torch/model.pt" \
-                --input "../../Datasets/DeltaDataV1_AnomalibForm/P${product}_V${view}/tst/" \
-                --output "../../Experiments/Anomalib/${model}/P${product}_V${view}/Test/"
+                --weights "${target_experiment_path}${model}/P${product}_V${view}/latest/weights/torch/model.pt" \
+                --input "${target_data_root_path}P${product}_V${view}/tst/" \
+                --output "${target_experiment_path}${model}/P${product}_V${view}/Test/"
 
         done
 

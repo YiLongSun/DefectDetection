@@ -16,7 +16,7 @@ for model in "${models[@]}"; do
 
         for view in "${views[@]}"; do
 
-            python train_segmentaiton.py \
+            python train_segmentation.py \
                 --model "${model}" \
                 --experiment_path "${target_experiment_path}" \
                 --data_root_path "${target_data_root_path}P${product}_V${view}/" \
@@ -25,10 +25,10 @@ for model in "${models[@]}"; do
                 --data_mask_dir "${target_data_mask_dir}" \
                 --data_normal_test_dir "${target_data_normal_test_dir}"
 
-            python test_segmentaiton.py \
-                --weights "../../Experiments/Anomalib/${model}/P${product}_V${view}/latest/weights/torch/model.pt" \
-                --input "../../Datasets/DeltaDataV1_AnomalibForm/P${product}_V${view}/tst/" \
-                --output "../../Experiments/Anomalib/${model}/P${product}_V${view}/Test/"
+            python test_segmentation.py \
+                --weights "${target_experiment_path}${model}/P${product}_V${view}/latest/weights/torch/model.pt" \
+                --input "${target_data_root_path}P${product}_V${view}/tst/" \
+                --output "${target_experiment_path}${model}/P${product}_V${view}/Test/"
 
         done
 
