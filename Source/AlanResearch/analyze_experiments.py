@@ -12,7 +12,7 @@ def main():
 
     argparser = argparse.ArgumentParser()
 
-    argparser.add_argument("--exp_root_path", type=str, default="../../Experiments/Anomalib/")
+    argparser.add_argument("--exp_root_path", type=str, default="../../Experiments/AnomalibV1/")
     argparser.add_argument("--category", type=str, default="[11,12,13,14,31,32,33,34]")
 
     args = argparser.parse_args()
@@ -83,10 +83,7 @@ def main():
             specificity_value = database[method]["P{}_V{}".format(str(category)[0],str(category)[1])]["Specificity"]*100
             iou_value = database[method]["P{}_V{}".format(str(category)[0],str(category)[1])]["IoU"]
 
-            # format value
-            recall_value = "{:.2f}".format(recall_value)
-            specificity_value = "{:.2f}".format(specificity_value)
-            iou_value = "{:.4f}".format(iou_value)
+            # format values
             recall_df_segmentation[method].append(recall_value)
             specificity_df_segmentation[method].append(specificity_value)
             iou_df_segmentation[method].append(iou_value)
