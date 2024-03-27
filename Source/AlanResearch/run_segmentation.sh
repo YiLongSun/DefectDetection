@@ -1,6 +1,6 @@
 source activate anomalib
 
-models=(Draem EfficientAd Fastflow Padim Patchcore ReverseDistillation Uflow)
+models=(Stfpm Cfa Cflow Csflow Dsr Draem EfficientAd Fastflow Padim Patchcore ReverseDistillation Uflow)
 products=(1 3)
 views=(1 2 3 4)
 target_experiment_path="../../Experiments/Anomalib/"
